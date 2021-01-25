@@ -1,7 +1,7 @@
 import mineflayer from 'mineflayer'
 import { Vec3 } from 'vec3'
 
-function StartBot (username, password) {
+function HerbalismBot (username, password) {
   const bot = mineflayer.createBot({
     host: 'legacy.craftlandia.com.br',
     username: username,
@@ -74,4 +74,4 @@ function StartBot (username, password) {
   }
 }
 
-export { StartBot }
+export { HerbalismBot }
