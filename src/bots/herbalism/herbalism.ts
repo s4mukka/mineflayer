@@ -9,7 +9,7 @@ function HerbalismBot (username, password) {
   })
 
   bot.on('login', () => {
-    console.log(`Conectado com ${bot.username}!`)
+    console.log(`[${bot.username}] Conectado!`)
     bot.chatAddPattern(/^» Olá, essa parece ser a sua primeira vez no servidor\./, 'register', 'Craftlandia register')
     bot.chatAddPattern(/^»Bem vindo de volta. Por favor digite \/login sua-senha\.$/, 'logar', 'Craftlandia logar')
     bot.chatAddPattern(/^(?:Teleportado\.|Teleported\.|Teleportado\(a\)!)$/, 'teleported', 'Craftlandia teleported')
@@ -17,20 +17,20 @@ function HerbalismBot (username, password) {
   })
 
   bot.on<any>('register', () => {
-    console.log(`Registrado com ${bot.username}`)
     bot.chat(`/register ${password} ${password}`)
+    console.log(`[${bot.username}] Registrado!`)
   })
 
   bot.on<any>('logar', () => {
-    console.log(`Logado com ${bot.username}!`)
     bot.chat(`/login ${password}`)
+    console.log(`[${bot.username}] Logado!`)
   })
 
   bot.on('whisper', (username, message) => {
     if (username === 'Morking') {
       switch (message.toLowerCase()) {
         case 'herbalismo':
-          console.log('Iniciando herbalismo')
+          console.log(`[${bot.username}] Iniciando herbalismo`)
           bot.chat(`/tell ${username} Iniciando macro de Herbalismo`)
           herbalismo()
           break
@@ -43,11 +43,11 @@ function HerbalismBot (username, password) {
 
   function teleport (home): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      console.log(`Indo para /home ${home} ...`)
+      console.log(`[${bot.username}] Indo para /home ${home} ...`)
       bot.chat(`/home ${home}`)
 
       bot.once<any>('teleported', () => {
-        console.log('Teleportado!')
+        console.log(`[${bot.username}] Teleportado!`)
         resolve()
       })
     })
@@ -61,10 +61,13 @@ function HerbalismBot (username, password) {
       if (onBlock.type === 83) {
         bot.dig(onBlock, true, herbalismControl)
       } else {
+        // @ts-ignore
+        const item = bot.inventory.findInventoryItem(338)
+        bot.equip(item, 'hand')
         bot.placeBlock(blockFloor, new Vec3(0, 1, 0), herbalismControl)
       }
     } catch (err) {
-      console.log(err)
+      console.log(`[${bot.username}]`, err)
     }
   }
 
