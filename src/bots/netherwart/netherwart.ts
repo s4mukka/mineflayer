@@ -97,21 +97,19 @@ function NetherWartBot (username, password) {
 
         if (item) {
           bot.setQuickBarSlot(8)
-        }
-
-        if (bot.entity.heldItem.type === Id.diamondAxe) {
-          await bot.dig(onBlock, true)
+          if (bot.entity.heldItem.type === Id.diamondAxe) {
+            await bot.dig(onBlock, true)
+          }
         }
       } else if (blockFloor.type === Id.soulSand && onBlock.type === Id.air) {
         // @ts-ignore
         const item = bot.inventory.findInventoryItem(Id.itemNetherWart)
 
         if (item) {
-          await bot.equip(item, 'hand').then(async () => {
-            if (bot.entity.heldItem.type === Id.itemNetherWart) {
-              await bot.placeBlock(blockFloor, new Vec3(0, 1, 0))
-            }
-          })
+          bot.setQuickBarSlot(1)
+          if (bot.entity.heldItem.type === Id.itemNetherWart) {
+            await bot.placeBlock(blockFloor, new Vec3(0, 1, 0))
+          }
         }
       } else if (blockFloor.type === Id.soulSand && onBlock.type === Id.plantedNetherWart && (onBlock.metadata === 1 || onBlock.metadata === 2)) {
         return
