@@ -72,6 +72,13 @@ function NetherWartBot (username, password) {
     })
   }
 
+  function setHome (home): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      console.log(`[${bot.username}] Setando home para ${home} ...`)
+      bot.chat(`/sethome ${home}`)
+    })
+  }
+
   async function netherwart (): Promise<void> {
     console.log(`[${bot.username}] Iniciando a macro de Fungo`)
     await teleport('fungo')
@@ -91,7 +98,9 @@ function NetherWartBot (username, password) {
         return
       }
 
-      if (blockFloor.type === Id.soulSand && onBlock.type === Id.plantedNetherWart && onBlock.metadata === 3) {
+      if (bot.inventory.emptySlotCount() <= 3) {
+        console.log(`[${bot.username} Inventário cheio!]`)
+      } else if (blockFloor.type === Id.soulSand && onBlock.type === Id.plantedNetherWart && onBlock.metadata === 3) {
         // @ts-ignore
         const item = bot.inventory.findInventoryItem(Id.diamondAxe)
 
@@ -115,7 +124,7 @@ function NetherWartBot (username, password) {
         return
       }
     } catch (err) {
-      console.log(err)
+      console.log(`[${bot.username}]`, err)
     }
   }
 }
